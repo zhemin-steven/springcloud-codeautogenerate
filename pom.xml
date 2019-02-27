@@ -86,12 +86,6 @@
 			<version>${fastjson}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>com.yunzhangfang</groupId>
-			<artifactId>common</artifactId>
-			<version>0.1.2-SNAPSHOT</version>
-		</dependency>
-
 		<!-- swagger生成接口API -->
 		<dependency>
 			<groupId>io.springfox</groupId>
