@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.steven.demo.springcloudcodeautogenerate.mms.dao.MessageReceiverMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.steven.demo.springcloudcodeautogenerate.mms.entity.MessageReceiver">
+        <id column="id" property="id" />
+        <result column="message_id" property="messageId" />
+        <result column="receiver_id" property="receiverId" />
+        <result column="receiver_name" property="receiverName" />
+        <result column="receiver_email" property="receiverEmail" />
+        <result column="receiver_phone" property="receiverPhone" />
+        <result column="receive_app_name" property="receiveAppName" />
+        <result column="receive_app_id" property="receiveAppId" />
+        <result column="company_id" property="companyId" />
+        <result column="is_read" property="isRead" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="operator" property="operator" />
+        <result column="is_deleted" property="isDeleted" />
+        <result column="send_channel_type" property="sendChannelType" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, message_id, receiver_id, receiver_name, receiver_email, receiver_phone, receive_app_name, receive_app_id, company_id, is_read, create_time, update_time, operator, is_deleted, send_channel_type
+    </sql>
+
+</mapper>

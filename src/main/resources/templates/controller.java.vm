@@ -1,0 +1,158 @@
+package ${package.Controller};
+
+import io.swagger.annotations.*;
+import org.springframework.web.bind.annotation.*;
+    #if(${restControllerStyle})
+    #else
+import org.springframework.stereotype.Controller;
+    #end
+    #if(${superControllerClassPackage})
+import ${superControllerClassPackage};
+    #end
+import org.springframework.beans.factory.annotation.Autowired;
+import ${package.Service}.${table.serviceName};
+import ${package.Entity}.${entity};
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
+import com.steven.demo.springcloudcodeautogenerate.common.DataJson;
+import java.util.List;
+
+/**
+ *code is far away from bug with the animal protecting
+ *   @description : ${entity} 控制器
+ *   ---------------------------------
+ *      @author ${author}
+ *   @since ${date}
+ */
+@Api(tags = {"$!{table.comment}"})
+#if(${restControllerStyle})
+@RestController
+#else
+@Controller
+#end
+@RequestMapping("#if(${package.ModuleName})/${package.ModuleName}#end/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end")
+@EnableSwagger2
+#if(${superControllerClass})
+public class ${table.controllerName} extends ${superControllerClass} {
+#else
+public class ${table.controllerName} {
+#end
+private final Logger logger = LoggerFactory.getLogger(${table.controllerName}.class);
+
+@Autowired
+public ${table.serviceName} ${table.entityPath}Service;
+
+/**
+ * @description : 获取分页列表
+ * ---------------------------------
+ * @author : ${author}
+ * @since : Create in ${date}
+ */
+@ApiOperation(value = "获取分页列表", notes = "获取分页列表", produces = "application/json")
+@GetMapping(value = "/${table.entityPath}/{pageNumber}/{pageSize}")
+public Object get${entity}List(@RequestBody(required = false) ${entity} param,
+@PathVariable(value = "pageNumber") Integer pageNumber,
+@PathVariable(value = "pageSize") Integer pageSize){
+        DataJson<List<${entity}>> repJson=new DataJson<>();
+
+        try{
+        Page<${entity}> page=new Page<${entity}>(pageNumber,pageSize);
+        ${table.entityPath}Service.selectPage(page,new EntityWrapper<${entity}>(param));
+        repJson.setTotal(page.getTotal());
+        repJson.setPageSize(pageSize);
+        repJson.setPageNumber(pageNumber);
+        repJson.setData(page.getRecords());
+        repJson.setSuccess(true);
+        }catch(Exception e){
+        repJson.setSuccess(false);
+        repJson.setMessage("异常信息:{"+e.getClass().getName()+"}");
+        logger.info("异常信息:{}"+e.getMessage());
+        }
+        return repJson;
+        }
+
+/**
+ * @description : 通过id获取${entity}
+ * ---------------------------------
+ * @author : ${author}
+ * @since : Create in ${date}
+ */
+@ApiOperation(value="通过id获取${entity}", notes="通过id获取${entity}",produces = "application/json")
+@GetMapping(value = "/${table.entityPath}/{id}")
+public Object get${entity}ById(@PathVariable(value = "id") String id) {
+        DataJson<${entity}> repJson = new DataJson<>();
+        try {
+        ${entity} param= ${table.entityPath}Service.selectById(id);
+        repJson.setData(param);
+        repJson.setSuccess(true);
+        }catch (Exception e) {
+        repJson.setSuccess(false);
+        repJson.setMessage("异常信息:{"+e.getClass().getName()+"}");
+        logger.info("异常信息:{}"+e.getMessage());
+        }
+        return repJson;
+        }
+
+/**
+ * @description : 通过id删除${entity}
+ * ---------------------------------
+ * @author : ${author}
+ * @since : Create in ${date}
+ */
+@ApiOperation(value="通过id删除${entity}", notes="通过id删除${entity}",produces = "application/json")
+@DeleteMapping(value = "/${table.entityPath}/{id}")
+public Object delete${entity}ById(@PathVariable(value = "id") String id) {
+        DataJson<${entity}> repJson = new DataJson<>();
+        try{
+        repJson.setSuccess(${table.entityPath}Service.deleteById(Long.valueOf(id)));
+        }catch (Exception e) {
+        repJson.setSuccess(false);
+        repJson.setMessage("异常信息:{"+e.getClass().getName()+"}");
+        logger.info("异常信息:{}"+e.getMessage());
+        }
+        return repJson;
+        }
+
+/**
+ * @description : 通过id更新${entity}
+ * ---------------------------------
+ * @author : ${author}
+ * @since : Create in ${date}
+ */
+@ApiOperation(value="通过id更新${entity}", notes="通过id更新${entity}",produces = "application/json")
+@PutMapping(value = "/${table.entityPath}")
+public Object update${entity}ById(@RequestBody ${entity} param) {
+        DataJson<${entity}> repJson = new DataJson<>();
+        try{
+        repJson.setSuccess(${table.entityPath}Service.updateById(param));
+        }catch (Exception e) {
+        repJson.setSuccess(false);
+        repJson.setMessage("异常信息:{"+e.getClass().getName()+"}");
+        logger.info("异常信息:{}"+e.getMessage());
+        }
+        return repJson;
+        }
+
+/**
+ * @description : 添加${entity}
+ * ---------------------------------
+ * @author : ${author}
+ * @since : Create in ${date}
+ */
+@ApiOperation(value="添加${entity}", notes="添加${entity}",produces = "application/json")
+@PostMapping(value = "/${table.entityPath}")
+public Object add${entity}(@RequestBody ${entity} param) {
+        DataJson<${entity}> repJson = new DataJson<>();
+        try{
+        repJson.setSuccess(${table.entityPath}Service.insert(param));
+        }catch (Exception e) {
+        repJson.setSuccess(false);
+        repJson.setMessage("异常信息:{"+e.getClass().getName()+"}");
+        logger.info("异常信息:{}"+e.getMessage());
+        }
+        return repJson;
+        }
+        }
